@@ -22,6 +22,8 @@ const dashboardRoutes_1 = __importDefault(require("./routes/dashboardRoutes"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
 const usersRoute_1 = __importDefault(require("./routes/usersRoute"));
 const expenseRoute_1 = __importDefault(require("./routes/expenseRoute"));
+const promise_1 = __importDefault(require("mysql2/promise"));
+const demandController_1 = require("./controller/demandController");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -36,8 +38,15 @@ app.use("/products", productRoutes_1.default);
 app.use("/users", usersRoute_1.default);
 app.use("/expenses", expenseRoute_1.default);
 // app.use("");
+app.use('/priceAnalysis', demandController_1.getDemandData);
 const mongoose = require('mongoose');
 const mongoURI = "mongodb+srv://inventory:inventory@cluster0.7tx93.mongodb.net/comments?retryWrites=true&w=majority&appName=Cluster0";
+const db = promise_1.default.createPool({
+    host: "localhost",
+    user: "your_username",
+    password: "your_password",
+    database: "your_database",
+});
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
