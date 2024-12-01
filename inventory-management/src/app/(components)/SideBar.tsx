@@ -9,6 +9,7 @@ import {
   LucideIcon,
   Menu,
   SlidersHorizontal,
+  SquareDashedBottomCodeIcon,
   Users,
 } from "lucide-react";
 import { useAppSelector } from "@/store/store";
@@ -128,6 +129,12 @@ function SideBar(props: Props) {
           label="Expenses"
           isCollapsed={isSideBarCollapsed}
         />
+          <SideBarLinks
+            href="/invoice"
+            icon={SquareDashedBottomCodeIcon}
+            label="Invoice "
+            isCollapsed={isSideBarCollapsed}
+          />
         <SideBarLinks
           href="/settings"
           icon={SlidersHorizontal}

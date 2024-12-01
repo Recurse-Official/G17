@@ -64,10 +64,17 @@ export interface Expenses{
   date:string
 }
 
+export interface Demand{
+  name:string,
+  price:bigint,
+  available:bigint,
+  date:string
+}
+
 export const api=createApi({
   baseQuery:fetchBaseQuery({baseUrl:process.env.NEXT_PUBLIC_API_BASE_URL}),
   reducerPath:"api",
-  tagTypes:["DashboardMetrics","Products","Users","Expenses"],
+  tagTypes:["DashboardMetrics","Products","Users","Expenses","Demand"],
   endpoints:(build)=>({
     getDashboardMetric:build.query<DashboardMetrics,void>({
       query:()=>"/",
@@ -108,9 +115,17 @@ export const api=createApi({
         }
       ),
       providesTags:["Expenses"]
+    }),
+    getDemand:build.query<Demand[],void>({
+      query:()=>(
+        {
+          url:"/priceAnalysis",
+        }
+      ),
+      providesTags:["Demand"]
     })
   })
  
 })
 
-export const { useGetDashboardMetricQuery,useCreateProductMutation,useGetProductsQuery,useGetUsersQuery,useGetExpensesQuery}=api;
+export const { useGetDashboardMetricQuery,useCreateProductMutation,useGetProductsQuery,useGetUsersQuery,useGetExpensesQuery,useGetDemandQuery}=api;
