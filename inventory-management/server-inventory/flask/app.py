@@ -4,14 +4,21 @@ import pandas as pd
 from sqlalchemy import create_engine
 from urllib.parse import quote
 
+
 app = Flask(__name__)
 CORS(app)
+
+# PostgreSQL connection setup
+pwd = 'kri@123'
 
 # PostgreSQL connection setup
 pwd = 'kri@123'
 encoded_pwd = quote(pwd)
 DATABASE_URL = f"postgresql://postgres:{encoded_pwd}@localhost:5432/inventoryManagement"
 engine = create_engine(DATABASE_URL)
+
+from sqlalchemy.sql import text
+
 
 from sqlalchemy.sql import text
 
@@ -26,7 +33,12 @@ def upload_csv():
     if not table_name:
         return jsonify({"message": "No target table specified"}), 400
 
+    table_name = "demand"  # Target table
+    if not table_name:
+        return jsonify({"message": "No target table specified"}), 400
+
     try:
+        # Read the CSV file into a pandas DataFrame
         df = pd.read_csv(file)
 
         required_columns = {'product', 'price', 'available', 'date'}
