@@ -27,18 +27,14 @@ def upload_csv():
         return jsonify({"message": "No target table specified"}), 400
 
     try:
-        # Read the CSV file into a pandas DataFrame
         df = pd.read_csv(file)
 
-        # Validate required columns in the CSV
         required_columns = {'product', 'price', 'available', 'date'}
         if not required_columns.issubset(df.columns):
             return jsonify({"message": f"CSV must include columns: {required_columns}"}), 400
 
-        # Ensure column names match database schema
         df = df[['product', 'price', 'available', 'date']]
 
-        # SQL query with placeholders, wrapped in `text`
         query = text("""
             INSERT INTO demand (product, price, available, date)
             VALUES (:product, :price, :available, :date)
