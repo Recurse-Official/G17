@@ -8,7 +8,8 @@ import dashboardRoutes from "./routes/dashboardRoutes"
 import productRoutes from "./routes/productRoutes"
 import usersRoute from "./routes/usersRoute"
 import expenseByCategory from "./routes/expenseRoute"
- 
+import mysql from "mysql2/promise";
+import { getDemandData } from "./controller/demandController"
 dotenv.config()
 const app=express()
 app.use(cors())
@@ -30,11 +31,16 @@ app.use("/users",usersRoute);
 
 app.use("/expenses",expenseByCategory)
 // app.use("");
-
+app.use('/priceAnalysis',getDemandData)
 const mongoose=require('mongoose');
 
 const mongoURI="mongodb+srv://inventory:inventory@cluster0.7tx93.mongodb.net/comments?retryWrites=true&w=majority&appName=Cluster0"
-
+const db = mysql.createPool({
+  host: "localhost",
+  user: "your_username",
+  password: "your_password",
+  database: "your_database",
+});
 
 mongoose.connect(mongoURI,{
   useNewUrlParser:true,
